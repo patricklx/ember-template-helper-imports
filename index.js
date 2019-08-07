@@ -77,7 +77,8 @@ class TemplateImportProcessor extends BroccoliFilter {
         }
       }
       if (localName[0].toLowerCase() === localName[0]) {
-        rewrittenContents = rewrittenContents.replace(new RegExp('{{' + localName + '( |})', "g"), '{{ember-template-helper-import/helpers/invoke-helper this \'' + importPath + '\'');
+        rewrittenContents = rewrittenContents.replace(new RegExp('{{' + localName + '( |})', "g"), '{{ember-template-helper-import/helpers/invoke-helper this \'' + importPath + '\'$1');
+        rewrittenContents = rewrittenContents.replace(new RegExp('(' + localName + '( |))', "g"), '{{ember-template-helper-import/helpers/invoke-helper this \'' + importPath + '\'$1');
       }
       return warn;
     }).join('');
