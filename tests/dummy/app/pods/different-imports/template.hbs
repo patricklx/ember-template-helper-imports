@@ -1,0 +1,33 @@
+// spaced
+{{ import myhelper from "ui/helper" }}
+// tabbed
+{{  import    secondHelper from    "application/helper"    }}
+// mixed
+{{  import            helperHelper           from          "ui/helper"  }}
+// newlined
+{{import
+  secondHelperSecondHelper
+  from
+  "application/helper"
+}}
+// newlined mixed
+{{import
+  helperhelperhelper
+  from
+  "ui/helper"
+}}
+// newlined mixed with tabs and spaces
+{{  import
+  helperhelperhelperhelper
+  from
+  "application/helper"
+}}
+
+<div class="helpers">
+  {{myhelper "helper"}}
+  {{secondHelper "helper"}}
+  {{helperHelper "helper"}}
+  {{secondHelperSecondHelper "helper"}}
+  {{helperhelperhelper "helper"}}
+  {{helperhelperhelperhelper "helper"}}
+</div>
