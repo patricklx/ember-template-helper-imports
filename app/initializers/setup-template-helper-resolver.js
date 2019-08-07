@@ -11,10 +11,16 @@ export default {
           return this._extractDefaultExport(resolved, parsedName);
         }
       }
-      let podPrefix = this.namespace.podModulePrefix || this.namespace.modulePrefix;
+      let prefix = this.namespace.podModulePrefix;
       let fullNameWithoutType = parsedName.fullNameWithoutType;
 
-      const normalizedModuleName = podPrefix + '/' + fullNameWithoutType;
+      let normalizedModuleName = prefix + '/' + fullNameWithoutType;
+      if (this._moduleRegistry.has(normalizedModuleName)) {
+        return this._extractDefaultExport(normalizedModuleName, parsedName);
+      }
+
+      prefix = this.namespace.modulePrefix;
+      normalizedModuleName = prefix + '/' + fullNameWithoutType;
       if (this._moduleRegistry.has(normalizedModuleName)) {
         return this._extractDefaultExport(normalizedModuleName, parsedName);
       }
