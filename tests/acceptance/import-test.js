@@ -12,5 +12,11 @@ module('Acceptance | helper', function(hooks) {
 
     assert.equal(findAll('.global').length, 1);
     assert.equal(findAll('.local').length, 2);
+
+    assert.equal(find('.complex').textContent, 'abc');
+
+    await new Promise(res => setTimeout(res, 1500));
+
+    assert.equal(find('.complex').textContent, 'abcd');
   });
 });
