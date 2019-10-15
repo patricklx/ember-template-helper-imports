@@ -3,7 +3,7 @@ import { getOwner } from '@ember/application';
 
 
 export const helper = Helper.extend({
-  compute([context, helper, ...args]) {
+  compute([context, helper, ...args], hash) {
     if (!this.h) {
       this.h = getOwner(context).lookup(`helper:${helper}`);
       if (this.h.create) {
@@ -12,6 +12,6 @@ export const helper = Helper.extend({
         this.h.recompute = this.recompute.bind(this);
       }
     }
-    return this.h.compute(args);
+    return this.h.compute(args, hash);
   }
 });
