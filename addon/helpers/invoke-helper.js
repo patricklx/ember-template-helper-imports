@@ -1,5 +1,5 @@
 import Helper from '@ember/component/helper';
-import { getOwner } from '@ember/application';
+import { getOwner, setOwner } from '@ember/application';
 
 
 export const helper = Helper.extend({
@@ -9,6 +9,7 @@ export const helper = Helper.extend({
       if (this.h.create) {
         const H = this.h;
         this.h = H.create();
+        setOwner(this.h, getOwner(context));
         this.h.recompute = this.recompute.bind(this);
       }
     }
