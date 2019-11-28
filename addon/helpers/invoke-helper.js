@@ -12,7 +12,7 @@ export const helper = Helper.extend({
         setOwner(this.h, getOwner(context));
         this.h.recompute = this.recompute.bind(this);
       }
-      if (!this.h || this.h.compute) {
+      if (!this.h || !this.h.compute) {
         throw new Error('could not find helper: ' + helper);
       }
     }
