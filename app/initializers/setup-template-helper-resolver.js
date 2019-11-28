@@ -8,8 +8,8 @@ export default {
       if (resolveHelper) {
         const resolved = resolveHelper.call(this, parsedName);
         if (this._moduleRegistry.has(resolved)) {
-          const exp = this._extractDefaultExport(resolved, parsedName);
-          return exp.helper || exp;
+          const module = require(normalizedModuleName);
+          return module.helper || module.default;
         }
       }
       let prefix = this.namespace.podModulePrefix;
@@ -17,20 +17,20 @@ export default {
 
       let normalizedModuleName = prefix + '/' + fullNameWithoutType;
       if (this._moduleRegistry.has(normalizedModuleName)) {
-        const exp = this._extractDefaultExport(normalizedModuleName, parsedName);
-        return exp.helper || exp;
+        const module = require(normalizedModuleName);
+        return module.helper || module.default;
       }
 
       prefix = this.namespace.modulePrefix;
       normalizedModuleName = prefix + '/' + fullNameWithoutType;
       if (this._moduleRegistry.has(normalizedModuleName)) {
-        const exp = this._extractDefaultExport(normalizedModuleName, parsedName);
-        return exp.helper || exp;
+        const module = require(normalizedModuleName);
+        return module.helper || module.default;
       }
 
       if (this._moduleRegistry.has(fullNameWithoutType)) {
-        const exp = this._extractDefaultExport(fullNameWithoutType, parsedName);
-        return exp.helper || exp;
+        const module = require(fullNameWithoutType);
+        return module.helper || module.default;
       }
 
       return null;
