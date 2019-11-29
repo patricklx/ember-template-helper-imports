@@ -1,3 +1,4 @@
+import Ember from 'ember';
 
 export default {
   name: 'setup-template-helper-resolver',
