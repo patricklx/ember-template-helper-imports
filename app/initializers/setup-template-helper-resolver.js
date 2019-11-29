@@ -1,5 +1,3 @@
-import Ember from 'ember';
-
 export default {
   name: 'setup-template-helper-resolver',
   initialize: function initialize(application) {
@@ -9,7 +7,7 @@ export default {
       if (resolveHelper) {
         const resolved = resolveHelper.call(this, parsedName);
         if (this._moduleRegistry.has(resolved)) {
-          const module = Ember.__loader.require(normalizedModuleName);
+          const module = this._moduleRegistry.get(normalizedModuleName);
           return module.helper || module.default;
         }
       }
@@ -18,19 +16,19 @@ export default {
 
       let normalizedModuleName = prefix + '/' + fullNameWithoutType;
       if (this._moduleRegistry.has(normalizedModuleName)) {
-        const module = Ember.__loader.require(normalizedModuleName);
+        const module = this._moduleRegistry.get(normalizedModuleName);
         return module.helper || module.default;
       }
 
       prefix = this.namespace.modulePrefix;
       normalizedModuleName = prefix + '/' + fullNameWithoutType;
       if (this._moduleRegistry.has(normalizedModuleName)) {
-        const module = Ember.__loader.require(normalizedModuleName);
+        const module = this._moduleRegistry.get(normalizedModuleName);
         return module.helper || module.default;
       }
 
       if (this._moduleRegistry.has(fullNameWithoutType)) {
-        const module = Ember.__loader.require(fullNameWithoutType);
+        const module = this._moduleRegistry.get(fullNameWithoutType);
         return module.helper || module.default;
       }
 
