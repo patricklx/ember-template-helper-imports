@@ -8,7 +8,7 @@ export default {
       if (resolveHelper) {
         const resolved = resolveHelper.call(this, parsedName);
         if (this._moduleRegistry.has(resolved)) {
-          const module = require(normalizedModuleName);
+          const module = Ember.__loader.require(normalizedModuleName);
           return module.helper || module.default;
         }
       }
@@ -17,19 +17,19 @@ export default {
 
       let normalizedModuleName = prefix + '/' + fullNameWithoutType;
       if (this._moduleRegistry.has(normalizedModuleName)) {
-        const module = require(normalizedModuleName);
+        const module = Ember.__loader.require(normalizedModuleName);
         return module.helper || module.default;
       }
 
       prefix = this.namespace.modulePrefix;
       normalizedModuleName = prefix + '/' + fullNameWithoutType;
       if (this._moduleRegistry.has(normalizedModuleName)) {
-        const module = require(normalizedModuleName);
+        const module = Ember.__loader.require(normalizedModuleName);
         return module.helper || module.default;
       }
 
       if (this._moduleRegistry.has(fullNameWithoutType)) {
-        const module = require(fullNameWithoutType);
+        const module = Ember.__loader.require(fullNameWithoutType);
         return module.helper || module.default;
       }
 
