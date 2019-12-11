@@ -5,7 +5,6 @@
 const assert = require('assert');
 const path = require('path');
 const BroccoliFilter = require('broccoli-persistent-filter');
-const md5Hex = require('md5-hex');
 
 const IMPORT_PATTERN = /\{\{\s*import\s+([a-z][^\s]+)\s+from\s+['"]([^'"]+)['"]\s*\}\}/g;
 
