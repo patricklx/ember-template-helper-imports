@@ -32,20 +32,12 @@ class TemplateImportProcessor extends BroccoliFilter {
     this.options = options;
     this._console = this.options.console || console;
 
-    this.extensions = [ 'hbs', 'handlebars' ];
+    this.extensions = ['hbs', 'handlebars'];
     this.targetExtension = 'hbs';
   }
 
   baseDir() {
     return __dirname;
-  }
-
-  cacheKeyProcessString(string, relativePath) {
-    return md5Hex([
-      'import-helper',
-      string,
-      relativePath
-    ]);
   }
 
   processString(contents, relativePath) {
@@ -62,7 +54,7 @@ class TemplateImportProcessor extends BroccoliFilter {
     let header = imports.map(({ importPath, localName, isLocalNameValid }) => {
       const warnPrefix = 'ember-template-helper-import: ';
       const abstractWarn = `${warnPrefix} Allowed import variable names - camelCased strings, like: fooBar, tomDale`;
-      const helperWarn =  `
+      const helperWarn = `
         ${warnPrefix}Warning!
         in file: "${relativePath}"
         subject: "${localName}" is not allowed as Variable name for helper import.`;
@@ -84,7 +76,7 @@ class TemplateImportProcessor extends BroccoliFilter {
       return warn;
     }).join('');
 
-    return header + rewrittenContents;
+    return header + rewrittenContents + ' ';
   }
 
 }
