@@ -83,7 +83,7 @@ class TemplateImportProcessor extends BroccoliFilter {
       return warn;
     }).join('');
 
-    return header + rewrittenContents;
+    return header + rewrittenContents + ' ';
   }
 
 }
