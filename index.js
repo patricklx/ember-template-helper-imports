@@ -42,6 +42,7 @@ class TemplateImportProcessor extends BroccoliFilter {
 
   cacheKeyProcessString(string, relativePath) {
     return md5Hex([
+      'import-helper',
       string,
       relativePath
     ]);
@@ -83,7 +84,7 @@ class TemplateImportProcessor extends BroccoliFilter {
       return warn;
     }).join('');
 
-    return header + rewrittenContents + ' ';
+    return header + rewrittenContents;
   }
 
 }
