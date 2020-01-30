@@ -5,6 +5,7 @@ import { getOwner } from '@ember/application';
 export const helper = Helper.extend({
   text: 'abc',
   init(...args) {
+    this._super(...args);
     const o = getOwner(this);
     if (!o) throw new Error('no owner');
   },
