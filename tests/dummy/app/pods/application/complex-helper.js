@@ -1,11 +1,12 @@
 import Helper from '@ember/component/helper';
 import { later } from '@ember/runloop';
+import { getOwner } from '@ember/application';
 
 export const helper = Helper.extend({
   text: 'abc',
   init(...args) {
     super.init(...args);
-    const o = Ember.getOwner(this);
+    const o = getOwner(this);
     if (!o) throw new Error('no owner');
   },
   compute() {
