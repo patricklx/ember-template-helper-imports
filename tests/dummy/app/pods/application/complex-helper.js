@@ -6,7 +6,7 @@ export const helper = Helper.extend({
   init(...args) {
     super.init(...args);
     const o = Ember.getOwner(this);
-     if (!o) throw new Error('no owner');
+    if (!o) throw new Error('no owner');
   },
   compute() {
     if (this.text === 'abc') {
