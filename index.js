@@ -42,7 +42,7 @@ class TemplateImportProcessor extends BroccoliFilter {
   processString(contents, relativePath) {
     let imports = [];
     let rewrittenContents = contents.replace(IMPORT_PATTERN, (_, localName, importPath) => {
-      if (!importPath.endsWith('.js')) { // .scss or other extensions
+      if (importPath.endsWith('.scss')) { // .scss or other extensions
         return _;
       }
       if (importPath.startsWith('.')) {
