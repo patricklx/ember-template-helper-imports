@@ -42,6 +42,9 @@ class TemplateImportProcessor extends BroccoliFilter {
   processString(contents, relativePath) {
     let imports = [];
     let rewrittenContents = contents.replace(IMPORT_PATTERN, (_, localName, importPath) => {
+      if (importPath.endsWith('.scss')) { // .scss or other extensions
+        return _;
+      }
       if (importPath.startsWith('.')) {
         importPath = path.resolve(relativePath, '..', importPath).split(path.sep).join('/');
         importPath = path.relative(this.options.root, importPath).split(path.sep).join('/');
