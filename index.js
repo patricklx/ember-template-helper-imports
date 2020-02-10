@@ -89,18 +89,12 @@ module.exports = {
   setupPreprocessorRegistry(type, registry) {
     const podModulePrefix = this.project.config().podModulePrefix;
 
-    assert.notStrictEqual(
-      podModulePrefix,
-      undefined,
-      `${this.name}: 'podModulePrefix' has not been defined in config/environment.js`
-    );
     registry.add('template', {
       name: 'ember-template-helper-import',
       ext: 'hbs',
       before: ['ember-template-component-import'],
       toTree: (tree) => {
-        let componentsRoot = path.join(this.project.root, podModulePrefix);
-        tree = new TemplateImportProcessor(tree, { root: componentsRoot });
+        tree = new TemplateImportProcessor(tree, { root: this.project.root });
         return tree;
       }
     });
