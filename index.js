@@ -3,12 +3,13 @@
 /* eslint-env node */
 
 const path = require('path');
+const fs = require('fs');
 const BroccoliFilter = require('broccoli-persistent-filter');
 
 const IMPORT_PATTERN = /\{\{\s*import\s+([a-z,\s*]+)*\s+from\s+['"]([^'"]+)['"]\s*\}\}/g;
 
 function isValidVariableName(name) {
-  if (!(/^[A-Za-z0-9]+$/.test(name))) {
+  if (!(/^[A-Za-z0-9.]+$/.test(name))) {
     return false;
   }
   return true;
@@ -54,8 +55,18 @@ class TemplateImportProcessor extends BroccoliFilter {
         let importName = localName;
         if (localName.includes(' as ')) {            
           [importName, localName] = localName.split(' as ');
+          importName = importName.trim();
+          localName = localName.trim();
         }
-        imports.push({ localName, importPath + '/' + importName, isLocalNameValid: isValidVariableName(name) });
+        if (importName === '*') {
+          const files = fs.readdirSync(path.join(this.options.root, importPath));
+          files.forEach((f) => {
+            const local = localName + '.' + f.split('.')[0];
+            imports.push({ local, importPath + '/' + importName, isLocalNameValid: isValidVariableName(local) });
+          });
+          return;
+        }
+        imports.push({ localName, importPath + '/' + importName, isLocalNameValid: isValidVariableName(localName) });
       });
       retturn '';
       }
