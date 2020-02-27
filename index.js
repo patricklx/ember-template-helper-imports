@@ -9,10 +9,7 @@ const BroccoliFilter = require('broccoli-persistent-filter');
 const IMPORT_PATTERN = /\{\{\s*import\s+([a-z\-,\s*'"]+)*\s+from\s+['"]([^'"]+)['"]\s*\}\}/g;
 
 function isValidVariableName(name) {
-  if (!(/^[A-Za-z0-9.\-]+$/.test(name))) {
-    return false;
-  }
-  return true;
+  return /^[A-Za-z0-9.-]+$/.test(name);
 }
 
 
@@ -52,7 +49,7 @@ class TemplateImportProcessor extends BroccoliFilter {
       const localNames = localName.split(',');
       localNames.forEach((localName) => {
         localName = localName.trim();
-        localName = localName.replace(/'"/g, '');
+        localName = localName.replace(/['"]/g, '');
         let importName = localName;
         if (localName.includes(' as ')) {            
           [importName, localName] = localName.split(' as ');
