@@ -69,7 +69,7 @@ class TemplateImportProcessor extends BroccoliFilter {
         }
         imports.push({ localName, importPath: importPath + '/' + importName, isLocalNameValid: isValidVariableName(localName) });
       });
-      retturn '';
+      return '';
       }
     });
 
