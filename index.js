@@ -62,11 +62,11 @@ class TemplateImportProcessor extends BroccoliFilter {
           const files = fs.readdirSync(path.join(this.options.root, importPath));
           files.forEach((f) => {
             const local = localName + '.' + f.split('.')[0];
-            imports.push({ local, importPath + '/' + importName, isLocalNameValid: isValidVariableName(local) });
+            imports.push({ localName: local, importPath: importPath + '/' + importName, isLocalNameValid: isValidVariableName(local) });
           });
           return;
         }
-        imports.push({ localName, importPath + '/' + importName, isLocalNameValid: isValidVariableName(localName) });
+        imports.push({ localName, importPath: importPath + '/' + importName, isLocalNameValid: isValidVariableName(localName) });
       });
       retturn '';
       }
