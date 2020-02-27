@@ -70,7 +70,6 @@ class TemplateImportProcessor extends BroccoliFilter {
         imports.push({ localName, importPath: importPath + '/' + importName, isLocalNameValid: isValidVariableName(localName) });
       });
       return '';
-      }
     });
 
     let header = imports.map(({ importPath, localName, isLocalNameValid }) => {
