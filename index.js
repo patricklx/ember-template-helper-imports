@@ -3,7 +3,6 @@
 /* eslint-env node */
 
 const path = require('path');
-const fs = require('fs');
 const BroccoliFilter = require('broccoli-persistent-filter');
 
 const IMPORT_PATTERN = /\{\{\s*import\s+([a-z\-,\s*'"]+)*\s+from\s+['"]([^'"]+)['"]\s*\}\}/g;
@@ -57,8 +56,8 @@ class TemplateImportProcessor extends BroccoliFilter {
           localName = localName.trim();
         }
         if (importName === '*') {
-          localName = localName + '\.([\s]+)';
-          imports.push({ dynamic: true, localName, importPath: importPath + '/', isLocalNameValid: isValidVariableName(localName) });
+          const name = localName + '\.([\s]+)';
+          imports.push({ dynamic: true, localName, importPath: importPath + '/', isLocalNameValid: isValidVariableName(name) });
           return;
         }
         imports.push({ localName, importPath: importPath + '/' + importName, isLocalNameValid: isValidVariableName(localName) });
