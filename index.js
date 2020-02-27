@@ -5,7 +5,7 @@
 const path = require('path');
 const BroccoliFilter = require('broccoli-persistent-filter');
 
-const IMPORT_PATTERN = /\{\{\s*import\s+(([a-z]+(\,\s*)*)*)(\*\s+as\s+([a-z][^\s,]+))*\s+from\s+['"]([^'"]+)['"]\s*\}\}/g;
+const IMPORT_PATTERN = /\{\{\s*import\s+([a-z,\s*]+)*\s+from\s+['"]([^'"]+)['"]\s*\}\}/g;
 
 function isValidVariableName(name) {
   if (!(/^[A-Za-z0-9]+$/.test(name))) {
@@ -47,9 +47,18 @@ class TemplateImportProcessor extends BroccoliFilter {
       if (importPath.startsWith('.')) {
         importPath = path.resolve(relativePath, '..', importPath).split(path.sep).join('/');
         importPath = path.relative(this.options.root, importPath).split(path.sep).join('/');
+      }      
+      const localNames = localName.split(',');
+      localNames.forEach((localName) => {
+        localName = localName.trim();
+        let importName = localName;
+        if (localName.includes(' as ')) {            
+          [importName, localName] = localName.split(' as ');
+        }
+        imports.push({ localName, importPath + '/' + importName, isLocalNameValid: isValidVariableName(name) });
+      });
+      retturn '';
       }
-      imports.push({ localName, importPath, isLocalNameValid: isValidVariableName(localName) });
-      return '';
     });
 
     let header = imports.map(({ importPath, localName, isLocalNameValid }) => {
