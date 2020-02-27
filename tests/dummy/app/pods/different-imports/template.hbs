@@ -23,6 +23,10 @@
   "application/helper"
 }}
 
+{{import helper as ashelper from "ui" }}
+{{import a as ahelper from "ui" }}
+{{import * as helpers from "ui" }}
+
 <div class="helpers">
   {{myhelper "helper"}}
   {{secondHelper "helper"}}
@@ -30,4 +34,9 @@
   {{secondHelperSecondHelper "helper"}}
   {{helperhelperhelper "helper"}}
   {{helperhelperhelperhelper "helper"}}
+  {{ashelper "helper"}}
+  {{ahelper "helper"}}
+  {{helpers.helper 'helper'}}
+  {{helpers.a 'helper'}}
+  {{helpers.b 'helper'}}
 </div>
