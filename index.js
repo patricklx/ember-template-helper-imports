@@ -2,7 +2,6 @@
 
 /* eslint-env node */
 
-const assert = require('assert');
 const path = require('path');
 const BroccoliFilter = require('broccoli-persistent-filter');
 
@@ -87,8 +86,6 @@ module.exports = {
   name: require('./package').name,
 
   setupPreprocessorRegistry(type, registry) {
-    const podModulePrefix = this.project.config().podModulePrefix;
-
     registry.add('template', {
       name: 'ember-template-helper-import',
       ext: 'hbs',
