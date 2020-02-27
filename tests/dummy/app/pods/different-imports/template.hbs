@@ -25,10 +25,10 @@
 
 {{import helper as ashelper from "ui" }}
 {{import a as ahelper from "ui" }}
-{{import '* as helpers' from "ui" }}
-{{import 'a, b' from "ui" }}
-{{import 'a as x, b as y' from "ui" }}
-{{import 'a as z, helper' from "ui" }}
+{{import "* as helpers" from "ui" }}
+{{import "a, b" from "ui" }}
+{{import "a as x, b as y" from "ui" }}
+{{import "a as z, helper" from "ui" }}
 
 <div class="helpers">
   {{myhelper "helper"}}
@@ -39,13 +39,13 @@
   {{helperhelperhelperhelper "helper"}}
   {{ashelper "helper"}}
   {{ahelper "helper"}}
-  {{helpers.helper 'helper'}}
-  {{helpers.a 'helper'}}
-  {{helpers.b 'helper'}}
-  {{helpers.test-helper 'helper'}}
-  {{a 'helper'}}
-  {{b 'helper'}}
-  {{x 'helper'}}
-  {{y 'helper'}}
-  {{helper 'helper'}}
+  {{helpers.helper "helper"}}
+  {{helpers.a "helper"}}
+  {{helpers.b "helper"}}
+  {{helpers.test-helper "helper"}}
+  {{a "helper"}}
+  {{b "helper"}}
+  {{x "helper"}}
+  {{y "helper"}}
+  {{helper "helper"}}
 </div>
