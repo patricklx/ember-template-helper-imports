@@ -57,11 +57,8 @@ class TemplateImportProcessor extends BroccoliFilter {
           localName = localName.trim();
         }
         if (importName === '*') {
-          const files = fs.readdirSync(path.join(this.options.root, importPath));
-          files.forEach((f) => {
-            const local = localName + '.' + f.split('.')[0];
-            imports.push({ localName: local, importPath: importPath + '/' + importName, isLocalNameValid: isValidVariableName(local) });
-          });
+          localName = localName + '\.([\s]+)';
+          imports.push({ dynamic: true, localName, importPath: importPath + '/', isLocalNameValid: isValidVariableName(localName) });
           return;
         }
         imports.push({ localName, importPath: importPath + '/' + importName, isLocalNameValid: isValidVariableName(localName) });
@@ -69,7 +66,7 @@ class TemplateImportProcessor extends BroccoliFilter {
       return '';
     });
 
-    let header = imports.map(({ importPath, localName, isLocalNameValid }) => {
+    let header = imports.map(({ importPath, localName, isLocalNameValid, dynamic }) => {
       const warnPrefix = 'ember-template-helper-import: ';
       const abstractWarn = `${warnPrefix} Allowed import variable names - camelCased strings, like: fooBar, tomDale`;
       const helperWarn = `
@@ -88,8 +85,9 @@ class TemplateImportProcessor extends BroccoliFilter {
         }
       }
       if (localName[0].toLowerCase() === localName[0]) {
-        rewrittenContents = rewrittenContents.replace(new RegExp('{{' + localName + '( |})', "g"), '{{ember-template-helper-import/helpers/invoke-helper this \'' + importPath + '\'$1');
-        rewrittenContents = rewrittenContents.replace(new RegExp('\\(' + localName + '( |\\))', "g"), '(ember-template-helper-import/helpers/invoke-helper this \'' + importPath + '\'$1');
+        const replaceWith = 'ember-template-helper-import/helpers/invoke-helper this \'' + importPath + dynamic ? '$2' : '' + '\'$1';
+        rewrittenContents = rewrittenContents.replace(new RegExp('{{' + localName + '( |})', "g"), '{{' + replaceWith);
+        rewrittenContents = rewrittenContents.replace(new RegExp('\\(' + localName + '( |\\))', "g"), '(' + replaceWith);
       }
       return warn;
     }).join('');
