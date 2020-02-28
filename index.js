@@ -45,7 +45,7 @@ class TemplateImportProcessor extends BroccoliFilter {
         importPath = path.resolve(relativePath, '..', importPath).split(path.sep).join('/');
         importPath = path.relative(this.options.root, importPath).split(path.sep).join('/');
       }      
-      const localNames = localName.split(',').replace(/['"]/g, '');
+      const localNames = localName.replace(/['"]/g, '').split(',');
       localNames.forEach((localName) => {
         localName = localName.trim();
         let importName = localName;
