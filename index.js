@@ -55,7 +55,7 @@ class TemplateImportProcessor extends BroccoliFilter {
           localName = localName.trim();
         }
         if (importName === '*') {
-          const name = localName + '\\.([^\\s\\)} |]+';
+          const name = localName + '\\.([^\\s\\)} |]+)';
           imports.push({ dynamic: true, localName: name, importPath: importPath + '/', isLocalNameValid: isValidVariableName(localName) });
           return;
         }
