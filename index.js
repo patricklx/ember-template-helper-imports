@@ -5,13 +5,10 @@
 const path = require('path');
 const BroccoliFilter = require('broccoli-persistent-filter');
 
-const IMPORT_PATTERN = /\{\{\s*import\s+([a-z][^\s]+)\s+from\s+['"]([^'"]+)['"]\s*\}\}/g;
+const IMPORT_PATTERN = /\{\{\s*import\s+([a-z"']+[-,\S*'" ]+)*\s+from\s+['"]([^'"]+)['"]\s*\}\}/g;
 
 function isValidVariableName(name) {
-  if (!(/^[A-Za-z0-9]+$/.test(name))) {
-    return false;
-  }
-  return true;
+  return /^[A-Za-z0-9.-]+$/.test(name);
 }
 
 
@@ -48,11 +45,27 @@ class TemplateImportProcessor extends BroccoliFilter {
         importPath = path.resolve(relativePath, '..', importPath).split(path.sep).join('/');
         importPath = path.relative(this.options.root, importPath).split(path.sep).join('/');
       }
-      imports.push({ localName, importPath, isLocalNameValid: isValidVariableName(localName) });
+      const hasMultiple = localName.includes(',')
+      const localNames = localName.replace(/['"]/g, '').split(',');
+      localNames.forEach((localName) => {
+        localName = localName.trim();
+        let importName = localName;
+        if (localName.includes(' as ')) {            
+          [importName, localName] = localName.split(' as ');
+          importName = importName.trim();
+          localName = localName.trim();
+        }
+        if (importName === '*') {
+          const name = localName + '\\.([^\\s\\)} |]+)';
+          imports.push({ dynamic: true, localName: name, importPath: importPath + '/', isLocalNameValid: isValidVariableName(localName) });
+          return;
+        }
+        imports.push({ localName, importPath: importPath + (hasMultiple ? ('/' + importName) : ''), isLocalNameValid: isValidVariableName(localName) });
+      });
       return '';
     });
 
-    let header = imports.map(({ importPath, localName, isLocalNameValid }) => {
+    let header = imports.map(({ importPath, localName, isLocalNameValid, dynamic }) => {
       const warnPrefix = 'ember-template-helper-import: ';
       const abstractWarn = `${warnPrefix} Allowed import variable names - camelCased strings, like: fooBar, tomDale`;
       const helperWarn = `
@@ -71,8 +84,9 @@ class TemplateImportProcessor extends BroccoliFilter {
         }
       }
       if (localName[0].toLowerCase() === localName[0]) {
-        rewrittenContents = rewrittenContents.replace(new RegExp('{{' + localName + '( |})', "g"), '{{ember-template-helper-import/helpers/invoke-helper this \'' + importPath + '\'$1');
-        rewrittenContents = rewrittenContents.replace(new RegExp('\\(' + localName + '( |\\))', "g"), '(ember-template-helper-import/helpers/invoke-helper this \'' + importPath + '\'$1');
+        const replaceWith = 'ember-template-helper-import/helpers/invoke-helper this \'' + importPath + (dynamic ? '$1\'$2' : '\'$1');
+        rewrittenContents = rewrittenContents.replace(new RegExp('{{' + localName + '( |})', "g"), '{{' + replaceWith);
+        rewrittenContents = rewrittenContents.replace(new RegExp('\\(' + localName + '( |\\))', "g"), '(' + replaceWith);
       }
       return warn;
     }).join('');
