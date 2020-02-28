@@ -83,7 +83,7 @@ class TemplateImportProcessor extends BroccoliFilter {
         }
       }
       if (localName[0].toLowerCase() === localName[0]) {
-        const replaceWith = 'ember-template-helper-import/helpers/invoke-helper this \'' + importPath + dynamic ? '$2\'$1'' : '\'$1';
+        const replaceWith = 'ember-template-helper-import/helpers/invoke-helper this \'' + importPath + dynamic ? '$2\'$1' : '\'$1';
         rewrittenContents = rewrittenContents.replace(new RegExp('{{' + localName + '( |})', "g"), '{{' + replaceWith);
         rewrittenContents = rewrittenContents.replace(new RegExp('\\(' + localName + '( |\\))', "g"), '(' + replaceWith);
       }
