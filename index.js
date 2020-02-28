@@ -44,7 +44,8 @@ class TemplateImportProcessor extends BroccoliFilter {
       if (importPath.startsWith('.')) {
         importPath = path.resolve(relativePath, '..', importPath).split(path.sep).join('/');
         importPath = path.relative(this.options.root, importPath).split(path.sep).join('/');
-      }      
+      }
+      const hasMultiple = localName.includes(',')
       const localNames = localName.replace(/['"]/g, '').split(',');
       localNames.forEach((localName) => {
         localName = localName.trim();
@@ -59,7 +60,7 @@ class TemplateImportProcessor extends BroccoliFilter {
           imports.push({ dynamic: true, localName: name, importPath: importPath + '/', isLocalNameValid: isValidVariableName(localName) });
           return;
         }
-        imports.push({ localName, importPath: importPath + '/' + importName, isLocalNameValid: isValidVariableName(localName) });
+        imports.push({ localName, importPath: importPath + (hasMultiple && ('/' + importName)), isLocalNameValid: isValidVariableName(localName) });
       });
       return '';
     });
