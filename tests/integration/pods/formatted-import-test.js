@@ -8,6 +8,6 @@ module('Integration | Component | different-imports', function(hooks) {
 
   test('it can handle spaces, tabbed, multilined imports', async function(assert) {
     await render(hbs`{{different-imports}}`);
-    assert.equal(find('.helpers').textContent.match(/helper+/g).length, 6);
+    assert.equal(find('.helpers').textContent.match(/helper+/g).length, 17);
   });
 });
