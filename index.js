@@ -5,7 +5,7 @@
 const path = require('path');
 const BroccoliFilter = require('broccoli-persistent-filter');
 
-const IMPORT_PATTERN = /\{\{\s*import\s+([a-z"']+[-,\S*'" ]+)\s+from\s+['"]([^'"]+)['"]\s*\}\}/g;
+const IMPORT_PATTERN = /\{\{\s*import\s+([a-z"']+[-,\w*'" ]+)\s+from\s+['"]([^'"]+)['"]\s*\}\}/g;
 
 function isValidVariableName(name) {
   return /^[A-Za-z0-9.-]+$/.test(name);
