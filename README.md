@@ -30,6 +30,13 @@ Use the same kind of import syntax you are familiar with from Javascript:
 {{import myHelper from 'ui/helper'}}
 
 {{myHelper 'a'}}
+
+{{import helper as ashelper from "ui/helpers" }}
+{{import a as ahelper from "ui/helpers" }}
+{{import "* as helpers" from "u/helpersi" }}
+{{import "a, b" from "ui/helpers" }}
+{{import "a as x, b as y" from "ui/helpers" }}
+{{import "a as z, helper" from "ui/helpers" }}
 ```
 
 The helper is looked up from the given string using a direct lookup
