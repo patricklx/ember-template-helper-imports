@@ -1,6 +1,6 @@
 {
   "name": "ember-template-helper-import",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "repository": {
     "type" : "git",
     "url" : "https://github.com/patricklx/ember-template-helper-imports"
@@ -9,7 +9,6 @@
   "keywords": [
     "ember-addon"
   ],
-  "repository": "",
   "license": "MIT",
   "author": "",
   "directories": {
@@ -23,11 +22,6 @@
     "start": "ember serve",
     "test": "ember test",
     "test:all": "ember try:each"
-  },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
   },
   "dependencies": {
     "broccoli-persistent-filter": "^2.1.1",
