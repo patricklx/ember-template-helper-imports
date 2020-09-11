@@ -32,7 +32,7 @@ export default {
         return module.helper || module.default;
       }
 
-      return null;
+      return undefined;
     };
   }
 };
